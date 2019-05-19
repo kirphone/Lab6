@@ -2,9 +2,10 @@ package game;
 
 import game.skills.*;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class Person implements Comparable<Person> {
+public abstract class Person implements Comparable<Person>, Serializable {
     private FIO name;
     private MutableDouble speed;
     private Location currentLoc;

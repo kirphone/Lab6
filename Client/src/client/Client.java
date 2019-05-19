@@ -23,10 +23,12 @@ class Client {
     private InetSocketAddress serverInetSocketAddress;
     private ByteBuffer buffer;
 
-    Client(String serverAddress, int port) throws IOException{
+    Client(int port) throws IOException{
         //Открываем новый канал
-        serverInetSocketAddress = new InetSocketAddress(InetAddress.getByName(serverAddress), port);
-        channel = DatagramChannel.open().bind(serverInetSocketAddress); //Связываем сокет канала с адресом сервера
+        serverInetSocketAddress = new InetSocketAddress(InetAddress.getLocalHost(), port);
+        channel = DatagramChannel.open(); //Связываем сокет канала с адресом сервера
+
+
 
         buffer = ByteBuffer.allocate(4096);
         scanner = new Scanner(System.in);
@@ -83,12 +85,14 @@ class Client {
             channel.send(buffer, serverInetSocketAddress);
 
             buffer.clear();
+
             channel.receive(buffer);
 
             byte[] doings = buffer.array();
 
             try(ByteArrayInputStream bais = new ByteArrayInputStream(doings);
                 ObjectInputStream ois = new ObjectInputStream(bais)){
+                //System.out.println(ois.readObject().toString());
                 Response responce = (Response) ois.readObject();
                 System.out.println(responce.getActions());
                 collection = responce.getCollection();
@@ -102,16 +106,16 @@ class Client {
 
     public static void main(String[] args) {
         int port;
-        String address;
+        //String address;
         Scanner sc = new Scanner(System.in);
         while (true) {
-            System.out.println("Введите адрес сервера");
-            try {
-                address = sc.nextLine();
-            } catch (NoSuchElementException e){
-                System.out.println("Необходимо ввести адрес сервера");
-                continue;
-            }
+            //System.out.println("Введите адрес сервера");
+          //  try {
+            //    address = sc.nextLine();
+           // } catch (NoSuchElementException e){
+             //   System.out.println("Необходимо ввести адрес сервера");
+               // continue;
+            //}
             System.out.println("Введите порт сервера");
             try {
                 port = Integer.parseInt(sc.nextLine());
@@ -121,7 +125,7 @@ class Client {
             }
         }
         try{
-            Client client = new Client(address, port);
+            Client client = new Client(port);
             System.out.println("Клиент запущен");
 
 

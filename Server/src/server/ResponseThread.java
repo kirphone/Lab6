@@ -14,13 +14,13 @@ public class ResponseThread extends Thread {
 
     private CommandHandler handler;
     private int port;
-    private InetAddress address;
     private DatagramSocket datagramSocket;
     private DatagramPacket inDatagramPacket;
 
     public ResponseThread(DatagramSocket _datagramSocket, DatagramPacket datagramPacket, CollectionManager manager){
         handler = new CommandHandler(manager);
         datagramSocket = _datagramSocket;
+        inDatagramPacket = datagramPacket;
     }
 
     public void run(){
@@ -29,11 +29,13 @@ public class ResponseThread extends Thread {
              ByteArrayOutputStream baos = new ByteArrayOutputStream();
              ObjectOutputStream oos = new ObjectOutputStream(baos)) {
 
-            String actions = handler.doCommand((Command) ois.readObject());
+            Command c = (Command) ois.readObject();
+
+            String actions = handler.doCommand(c);
 
             //Оставляем информацию на сервере
             synchronized (System.out) {
-                System.out.printf("\nКоманда %s выполнена\n\nРезультат:\n%s", (String)  ois.readObject(), actions);
+                System.out.printf("\nКоманда %s выполнена\n\nРезультат:\n%s\n", c.getName(), actions);
             }
 
             Response response = new Response(actions, handler.getCollection());

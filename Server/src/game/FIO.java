@@ -1,6 +1,8 @@
 package game;
 
-public class FIO {
+import java.io.Serializable;
+
+public class FIO implements Serializable {
     private final String firstName;
     private final String secondName;
 

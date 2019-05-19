@@ -1,6 +1,8 @@
 package game;
 
-public class MutableDouble implements Comparable<MutableDouble> {
+import java.io.Serializable;
+
+public class MutableDouble implements Comparable<MutableDouble>, Serializable {
     private double value;
 
     public MutableDouble(double _value) {

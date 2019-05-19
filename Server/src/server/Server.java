@@ -13,8 +13,8 @@ public class Server {
     private CollectionManager collectionManager;
 
     public Server(int port, File importFile) throws IOException{
-        datagramSocket = new DatagramSocket();
-        datagramSocket.connect(InetAddress.getLocalHost(), port);
+        datagramSocket = new DatagramSocket(9876);
+        //datagramSocket.connect(InetAddress.getLocalHost(), port);
 
         collectionManager = new CollectionManager();
 
@@ -22,6 +22,7 @@ public class Server {
 
         System.out.println("Сервер запущен");
         System.out.println("IP: " + datagramSocket.getLocalAddress());
+        System.out.println("host: " + datagramSocket.getLocalAddress().getHostName());
     }
 
     private void listen() throws IOException{

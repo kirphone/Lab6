@@ -1,6 +1,8 @@
 package game;
 
-public enum Location {
+import java.io.Serializable;
+
+public enum Location implements Serializable {
     FORREST {
         @Override
         public String toString() {
