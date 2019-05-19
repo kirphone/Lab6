@@ -1,0 +1,4 @@
+module Client {
+    requires Server;
+
+}
